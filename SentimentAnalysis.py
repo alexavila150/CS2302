@@ -2,9 +2,9 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import praw
 
-reddit = praw.Reddit(client_id='copy and paste your client id here',
-                     client_secret='copy and paste your secret here',
-                     user_agent='my user agent'
+reddit = praw.Reddit(client_id= 'XZEqL7TQgebI0g',
+                     client_secret= '4F1bJPYnomLkhciLD1Ao_9X9WkI',
+                     user_agent='alexavila2000'
                      )
 
 
@@ -39,5 +39,7 @@ def main():
     neg = get_text_negative_proba(comments[0].replies[0].body)
 
     print(neg)
+
+
 
 main()
