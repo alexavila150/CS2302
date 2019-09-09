@@ -171,7 +171,7 @@ def main():
     #print(neg)
 
     #separates pos neg and neu comments into the global variables'
-    process_comments(comments2, 0)
+    process_comments(comments, 0)
 
     print("Number of positive comments:", len(positive_comments))
     print("Number of negative comments:", len(negative_comments))
