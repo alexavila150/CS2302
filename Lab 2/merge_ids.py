@@ -1,59 +1,48 @@
-class Node(object):
-   item = -1
-   next = None
+import linked_list
+import node
 
-   def __init__(self, item, next = None):
-       self.item = item
-       self.next = next
+def file_to_linked_list(file_name):
+    # Open file to read
+    file = open(file_name, 'r')
 
-class LinkedList(object):
-    head = None
-    tail = None
-    size = 0
+    # Linked List files
+    linked_list = linked_list.LinkedList()
 
-    def __init__(self, node = Node):
-        self.head = node
-        self.tail = node
+    # add file ids to the linked lists
+    for line in activision_file:
+        activision_ids.insert_head(line)
 
-    def insert_head(self, data):
-        if self.head is None:
-            self.head = Node(data)
-            self.tail = Node(data)
-            self.size += 1
-            return
+    file.close()
 
-        curr_node = Node(data)
-        curr_node.next = self.head
-        self.head = curr_node
-        self.size += 1
+def main():
+    # Open both files to read them
+    activision_file = open('activision.txt', 'r')
+    vivendi_file = open('vivendi.txt', 'r')
 
-    def print(self):
-        curr_node = self.head
-        while curr_node is not None:
-            print(curr_node.item)
-            curr_node = curr_node.next
+    # Linked List files
+    activision_ids = LinkedList()
+    vivendi_ids = LinkedList()
 
+    # add file ids to the linked lists
+    for line in activision_file:
+        activision_ids.insert_head(line)
 
-# Open both files to read them
-activision_file = open('activision.txt', 'r')
-vivendi_file = open('vivendi.txt', 'r')
+    for line in vivendi_file:
+        vivendi_ids.insert_head(line)
 
-# Linked List files
-activision_ids = LinkedList()
-vivendi_ids = LinkedList()
+    # combine both lists
+    activision_blizzard_ids = activision_ids
+    activision_blizzard_ids.append_list(vivendi_ids)
 
-# add file ids to the linked lists
-for line in activision_file:
-    activision_ids.insert_head(line)
+    # add duplicated ids to a list
+    duplicated_ids = []
+    ids_copy = activision_blizzard_ids.copy_list()
 
-for line in vivendi_file:
-    vivendi_ids.insert_head(line)
+    for i in range(activision_blizzard_ids.size):
+        for j in range(activision_blizzard_ids.size):
 
+    # Close both files
+    activision_file.close()
+    vivendi_file.close()
 
-print("number of ids activision:", activision_ids.size)
-print("number of ids vivendi:", vivendi_ids.size)
-
-
-# Close both files
-activision_file.close()
-vivendi_file.close()
+main()
