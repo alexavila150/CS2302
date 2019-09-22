@@ -1,4 +1,4 @@
-import node
+from Lab2.Node import Node
 
 class LinkedList(object):
     head = None
@@ -11,13 +11,13 @@ class LinkedList(object):
 
     def insert_head(self, data):
         if self.head is None:
-            self.head = node.Node(data)
+            self.head = Node(data)
             self.tail = self.head
             self.size += 1
             return
 
 
-        curr_node = node.Node(data)
+        curr_node = Node(data)
         curr_node.next = self.head
         self.head = curr_node
         self.size += 1
@@ -38,15 +38,34 @@ class LinkedList(object):
         self.tail.next = list.head
         self.tail = list.tail
 
+    def remove_head(self):
+        if self.head is None:
+            self.size = 0
+            return
+
+        # If there is 1 node, empty list
+        if self.size is 1:
+            self.empty_list()
+            return
+
+        self.head = self.head.next
+        self.size -= 1
+
+
+    def empty_list(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+
     def copy_list(self):
         copy = LinkedList()
-        copy.head = node.Node(self.head.item)
+        copy.head = Node(self.head.item)
         curr_copy = copy.head
         curr_self = self.head
 
         # Copy every node from self to copy
         for i in range(1, self.size):
-            curr_copy.next = node.Node()
+            curr_copy.next = Node()
             curr_copy = curr_copy.next
             curr_self = curr_self.next
             curr_copy.item = curr_self.item
@@ -55,6 +74,24 @@ class LinkedList(object):
         copy.tail = curr_copy
         copy.size = self.size
         return copy
+
+    def isSorted(self):
+        # return true if list has 1 or 0 elements
+        if self.head is None or self.size is 1:
+            return True
+
+        # Set pointers to see if list is sorted
+        pointer1 = self.head
+        pointer2 = pointer1.next
+
+        while pointer2 is not None:
+            if pointer1.item > pointer2.item:
+                return False
+
+            pointer1 = pointer1.next
+            pointer2 = pointer2.next
+
+        return True
 
 
     def print(self):
