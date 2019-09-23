@@ -5,9 +5,17 @@ class LinkedList(object):
     tail = None
     size = 0
 
-    def __init__(self, node = None):
-        self.head = node
-        self.tail = node
+    def __init__(self, node: Node = None):
+        if node is None:
+            self.head = None
+            self.tail = None
+            self.size = 0
+            return
+
+        if node.next is None:
+            self.head = node
+            self.tail = node
+            self.size = 1
 
     def insert_head(self, data):
         if self.head is None:
@@ -21,6 +29,24 @@ class LinkedList(object):
         curr_node.next = self.head
         self.head = curr_node
         self.size += 1
+
+    def add_multi_nodes(self, node: Node):
+        if node is None:
+            self.empty_list()
+            return
+
+        if node.next is None:
+            self.insert_head(node)
+            return
+
+        self.head= node
+        self.size = 0
+        curr_node = node
+        while curr_node is not None:
+            self.size += 1
+            curr_node = curr_node.next
+
+        self.tail = curr_node
 
     def append_list(self, list):
         # if added list is empty return
