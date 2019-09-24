@@ -1,3 +1,5 @@
+import sys
+
 from Lab2.LinkedList import LinkedList
 from Lab2.Node import Node
 
@@ -101,6 +103,9 @@ def find_duplicates(linked_list):
     return duplicates
 
 def main():
+    #Change recursion limit
+    sys.setrecursionlimit(10000)
+
     # Linked List files
     activision_ids = file_to_linked_list('activision.txt')
     vivendi_ids = file_to_linked_list('vivendi.txt')
@@ -111,6 +116,8 @@ def main():
 
     #sort and find duplicates
     merge_sort_list(activision_blizzard_ids)
+    duplicate_ids = find_duplicates(activision_blizzard_ids)
+    print(len(duplicate_ids))
 
 main()
 

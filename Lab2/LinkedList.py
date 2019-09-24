@@ -118,6 +118,22 @@ class LinkedList(object):
             pointer2 = pointer2.next
 
         return True
+    
+    def find_max(self) -> int:
+        if self.head is None:
+            return -1
+
+        #set pointer and max variable
+        max_num = self.head.item
+        curr_node = self.head
+
+        # find max item on the list
+        while curr_node is not None:
+            if curr_node.item > max_num:
+                max_num = curr_node.item
+            curr_node = curr_node.next
+
+        return max_num
 
 
     def print(self):
@@ -125,3 +141,5 @@ class LinkedList(object):
         while curr_node is not None:
             print(curr_node.item)
             curr_node = curr_node.next
+            
+    
