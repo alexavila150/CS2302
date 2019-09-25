@@ -135,7 +135,6 @@ class LinkedList(object):
 
         return max_num
 
-
     def print(self):
         curr_node = self.head
         while curr_node is not None:
