@@ -26,6 +26,26 @@ class Node:
             return self.set_child("right", new)
         return False
 
+    def get_grandparent(self):
+        if self.parent is None:
+            return None
+
+        return self.parent.parent
+
+    def get_uncle(self):
+        grandparent = None
+        if self.parent is not None:
+            grandparent = self.parent.parent
+
+        if grandparent is None:
+            return None
+
+        if grandparent.left is self.parent:
+            return grandparent.right
+
+        else:
+            return grandparent.left
+
 class Tree:
     def __init__(self, item = None):
         self.root = Node(item)
@@ -52,7 +72,7 @@ class Tree:
         node.left.set_child("right", node)
         node.set_child("left", left_right_child)
 
-    def BST_insert(self, item):
+    def bst_insert(self, item):
         node = Node(item)
         if self.root is None:
             self.root = node
@@ -75,11 +95,19 @@ class Tree:
 
     def balance(self, node):
         if node.parent is None:
+            node.color = "black"
+            return
+
+        if node.parent.color is "black":
+            return
+
+        parent = node.parent
+
 
 
 
     def insert(self, item):
-        node = self.BST_insert(item)
+        node = self.bst_insert(item)
         node.color = "red"
         self.balance(node)
 
