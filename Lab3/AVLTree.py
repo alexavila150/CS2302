@@ -67,16 +67,13 @@ class Tree:
         node.right.set_child("left", node)
         node.set_child("right", right_left_child)
 
-
     def rotate_right(self, node):
         left_right_child = node.left.right
         if node.parent is not None:
             node.parent.replace_child(node, node.left)
-
         else:
             self.root = node.left
             self.root.parent = None
-
         node.left.set_child("right", node)
         node.set_child("left", left_right_child)
 
