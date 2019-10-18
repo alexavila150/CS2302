@@ -1,5 +1,5 @@
-class Node:
-    def __init__(self, item = None, left = None, right = None, parent = None):
+class Node(object):
+    def __init__(self, item=None, left=None, right=None, parent=None):
         self.item = item
         self.left = left
         self.right = right
@@ -46,8 +46,9 @@ class Node:
         else:
             return grandparent.left
 
+
 class Tree:
-    def __init__(self, item = None):
+    def __init__(self, item=None):
         self.root = Node(item)
 
     def rotate_left(self, node):
@@ -72,23 +73,23 @@ class Tree:
         node.left.set_child("right", node)
         node.set_child("left", left_right_child)
 
-    def bst_insert(self, item):
-        node = Node(item)
+    def bst_insert(self, node: Node) -> Node:
         if self.root is None:
             self.root = node
         else:
             cur = self.root
             while cur is not None:
-                if item < cur.item:
+                if node.item < cur.item:
                     if cur.left is None:
                         cur.left = node
-                        cur = node
+                        cur = None
                     else:
                         cur = cur.left
                 else:
-                    if cur.left is None:
+                    print("item is bigger than cur")
+                    if cur.right is None:
                         cur.right = node
-                        cur = Node
+                        cur = None
                     else:
                         cur = cur.right
         return node
@@ -102,12 +103,43 @@ class Tree:
             return
 
         parent = node.parent
+        grandparent = node.get_grandparent()
+        uncle = node.get_uncle()
 
+        if uncle is not None and uncle.color is "red":
+            parent.color = uncle.color = "black"
+            grandparent.color = "red"
+            self.balance(grandparent)
+            return
 
+        if node is parent.right and parent is grandparent.left:
+            self.rotate_left(parent)
+            node = parent
+            parent = node.parent
 
+        elif node is parent.left and parent is grandparent.right:
+            self.rotate_right(parent)
+            node = parent
+            parent = node.parent
+
+        parent.color = "black"
+        grandparent.color = "red"
+
+        if node is parent.left:
+            self.rotate_right(grandparent)
+        else:
+            self.rotate_right(grandparent)
 
     def insert(self, item):
-        node = self.bst_insert(item)
+        node = Node(item)
+        self.bst_insert(node)
         node.color = "red"
         self.balance(node)
 
+    def print(self, node):
+        if node is None:
+            return
+
+        self.print(node.left)
+        print(node.item)
+        self.print(node.right)
