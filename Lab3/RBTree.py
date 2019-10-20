@@ -46,6 +46,26 @@ class Node(object):
         else:
             return grandparent.left
 
+    def get_sibling(self):
+        if self.parent is not None:
+            if self is self.parent.left:
+                return self.parent.right
+            return self.parent.left
+        return None
+
+    def get_predecessor(self):
+        cur = self.left
+        while cur.right is not None:
+            cur = cur.right
+        return cur
+
+    def are_both_children_black(self) -> bool:
+        if self.left is not None and self.left.color is "red":
+            return False
+        if self.right is not None and self.right.color is "red":
+            return True
+
+
 
 class Tree:
     def __init__(self, item=None):
@@ -73,8 +93,19 @@ class Tree:
         node.left.set_child("right", node)
         node.set_child("left", left_right_child)
 
+    def bst_search(self, item):
+        cur = self.root
+        while cur is not None:
+            if item == cur.item:
+                return cur
+            elif item < cur.item:
+                cur = cur.left
+            else:
+                cur = cur.right
+        return None
+
     def bst_insert(self, node: Node) -> Node:
-        if self.root is None:
+        if self.root is None or self.root.item is None:
             self.root = node
         else:
             cur = self.root
@@ -82,24 +113,76 @@ class Tree:
                 if node.item < cur.item:
                     if cur.left is None:
                         cur.left = node
+                        node.parent = cur
                         cur = None
                     else:
                         cur = cur.left
                 else:
-                    print("item is bigger than cur")
                     if cur.right is None:
                         cur.right = node
+                        node.parent = cur
                         cur = None
                     else:
                         cur = cur.right
         return node
 
+    def bst_remove(self, item):
+        par = None
+        cur = self.root
+        while cur is not None:
+            if cur.item == item:
+                if cur.left is None and cur.right is None:  # Remove Leaf
+                    if par is None:
+                        self.root = None
+                    elif par.left is cur:
+                        par.left = None
+                    else:
+                        par.right = None
+
+                elif cur.left is not None and cur.right is None: # Remove node with only left child
+                    if par is None:
+                        self.root = cur.left
+                    elif par.left is cur:
+                        par.left = cur.left
+                    else:
+                        par.right = cur.left
+
+                elif cur.left is None and cur.right is not None:
+                    if par is None:
+                        self.root = cur.right
+                    elif par.left is cur:
+                        par.left = cur.right
+                    else:
+                        par.right = cur.right
+
+                else:
+                    suc = cur.right
+                    while suc.left is not None:
+                        suc = suc.left
+                    suc_item = suc.item
+                    self.bst_remove(suc.item)
+                    cur.item = suc_item
+                return
+
+            elif cur.item < item:
+                par = cur
+                cur = cur.right
+
+            else:
+                par = cur
+                cur = cur.left
+
+        return
+
     def balance(self, node):
-        if node.parent is None:
+        print("balance--------------------------------------------------")
+        if node.parent is None:  # Parent is None
+            print("Parent is None")
             node.color = "black"
             return
 
-        if node.parent.color is "black":
+        if node.parent.color is "black":  # Parent color is Black
+            print("Parent color is black")
             return
 
         parent = node.parent
@@ -128,7 +211,7 @@ class Tree:
         if node is parent.left:
             self.rotate_right(grandparent)
         else:
-            self.rotate_right(grandparent)
+            self.rotate_left(grandparent)
 
     def insert(self, item):
         node = Node(item)
@@ -136,10 +219,104 @@ class Tree:
         node.color = "red"
         self.balance(node)
 
+    def is_non_none_and_red(self, node):
+        if node is None:
+            return False
+        return node.color is "red"
+
+    def is_none_or_black(self, node):
+        if node is None:
+            return True
+        return node.color is "black"
+
+    def try_case_1(self, node):
+        return node.color is "red" or node.parent is None
+
+    def try_case_2(self, node, sibling):
+        if sibling.color is "red":
+            node.parent.color = "red"
+            sibling.color = "black"
+            if node is node.parent.left:
+                self.rotate_left(node.parent)
+            else:
+                self.rotate_right(node.parent)
+            return True
+        return False
+
+    def try_case_3(self, node, sibling):
+        if node.parent.color is "black" and sibling.are_both_children_black():
+            sibling.color = "red"
+            self.prepare_for_removal(node.parent)
+            return True
+        return False
+
+    def try_case_4(self, node, sibling):
+        if node.parent.color is "red" and sibling.are_both_children_black():
+            node.parent.color = "black"
+            sibling.color = "red"
+            return True
+        return False
+
+    def try_case_5(self, node, sibling):
+        if (self.is_non_none_and_red(sibling.left)
+            and self.is_none_or_black(sibling.right)
+            and node is node.parent.left):
+
+            sibling.color = "red"
+            sibling.left.color = "black"
+            self.rotate_right(sibling)
+            return True
+        return False
+
+    def try_case_6(self, node, sibling):
+        if (self.is_none_or_black(sibling.left)
+            and self.is_non_none_and_red(sibling.right)
+            and node is node.parent.right):
+            sibling.color = "red"
+            sibling.right.color = "black"
+            self.rotate_left(sibling)
+            return True
+        return False
+
+    def prepare_for_removal(self, node):
+        if self.try_case_1(node):
+            return
+
+        sibling = node.get_sibling()
+        if self.try_case_2(node, sibling):
+            sibling = node.get_sibling()
+        if self.try_case_3(node, sibling):
+            return
+        if self.try_case_4(node, sibling):
+            return
+        if self.try_case_5(node, sibling):
+            sibling = node.get_sibling()
+        if self.try_case_6(node, sibling):
+            sibling = node.get_sibling()
+
+
+    def remove_node(self, node):
+        if node.left is not None and node.right is not None:
+            predecessor_node = node.get_predecessor()
+            predecessor_item = predecessor_node.item
+            self.remove_node(predecessor_node)
+            node.item = predecessor_item
+            return
+        if node.color is "black":
+            self.prepare_for_removal(node)
+
+        self.bst_remove(node.item)
+
+    def remove(self, item):
+        node = self.bst_search(item)
+        if node is not None:
+            self.remove_node(node)
+
+
     def print(self, node):
         if node is None:
             return
-
-        self.print(node.left)
         print(node.item)
+        self.print(node.left)
+
         self.print(node.right)

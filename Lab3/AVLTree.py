@@ -92,7 +92,7 @@ class Tree:
         return node
 
     def insert(self, item):
-        if self.root is None:      # Root is None
+        if self.root is None or self.root.item is None:      # Root is None
             self.root = Node(item)
             return
 
@@ -124,6 +124,7 @@ class Tree:
         if node is None:
             return
 
+
         self.print(node.left)
-        print(node.item)
         self.print(node.right)
+        print(node.item)
