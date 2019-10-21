@@ -5,6 +5,8 @@ class Node:
         self.right = right
         self.parent = parent
         self.height = 0
+        self.embedding = []
+
 
     def set_child(self, direction: str, child):
         if direction is not "left" and direction is not "right":
@@ -50,6 +52,11 @@ class Node:
 
         return left_height - right_height
 
+    def separate_word_and_embedding(self):
+        words = self.item.split()
+        self.item = words.pop(0)
+        self.embedding = words
+
 
 class Tree:
     def __init__(self, item=None):
@@ -91,6 +98,17 @@ class Tree:
 
         return node
 
+    def bts_search(self, item):
+        cur = self.root
+        while cur is not None:
+            if item == cur.item:
+                return cur
+            elif item < cur.item:
+                cur = cur.left
+            else:
+                cur = cur.right
+        return None
+
     def insert(self, item):
         if self.root is None or self.root.item is None:      # Root is None
             self.root = Node(item)
@@ -120,11 +138,33 @@ class Tree:
             self.rebalance(node)
             node = node.parent
 
+    def num_nodes(self, node):
+        if node is None:
+            return 0
+        return self.num_nodes(node.left) + self.num_nodes(node.right) + 1
+
+    def height(self, node):
+        if node is None:
+            return -1
+
+        return max(self.height(node.left), self.height(node.right)) + 1
+
+    def words_to
+
     def print(self, node):
         if node is None:
             return
 
 
         self.print(node.left)
-        self.print(node.right)
         print(node.item)
+        self.print(node.right)
+
+    def separate_all_embeddings(self, node: Node):
+        if node is None:
+            return
+
+        node.separate_word_and_embedding()
+        self.separate_all_embeddings(node.left)
+        self.separate_all_embeddings(node.right)
+

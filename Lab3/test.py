@@ -1,14 +1,14 @@
-from Lab3.RBTree import Tree
+from Lab3.AVLTree import Tree
 
 tree = Tree()
-tree.insert(0)
-tree.insert(1)
-tree.insert(2)
-tree.insert(3)
-tree.insert(4)
-tree.insert(5)
-tree.insert(6)
-tree.insert(7)
+tree.insert("Alex")
+tree.insert("Cesar")
+tree.insert("Grecia")
+tree.insert("Irvin")
+tree.insert("Matthew")
+tree.insert("Eddie")
+tree.insert("Estaban")
+tree.insert("Fabian")
 
 
 tree.print(tree.root)

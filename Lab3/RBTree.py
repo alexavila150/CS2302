@@ -5,6 +5,7 @@ class Node(object):
         self.right = right
         self.parent = parent
         self.color = ""
+        self.embedding = []
 
     def set_child(self, direction: str, child):
         if direction is not "left" and direction is not "right":
@@ -65,7 +66,10 @@ class Node(object):
         if self.right is not None and self.right.color is "red":
             return True
 
-
+    def separate_word_and_embedding(self):
+        words = self.item.split()
+        self.item = words[0]
+        self.embedding = words.pop(0)
 
 class Tree:
     def __init__(self, item=None):
@@ -175,14 +179,11 @@ class Tree:
         return
 
     def balance(self, node):
-        print("balance--------------------------------------------------")
         if node.parent is None:  # Parent is None
-            print("Parent is None")
             node.color = "black"
             return
 
         if node.parent.color is "black":  # Parent color is Black
-            print("Parent color is black")
             return
 
         parent = node.parent
@@ -316,7 +317,15 @@ class Tree:
     def print(self, node):
         if node is None:
             return
+
         print(node.item)
         self.print(node.left)
-
         self.print(node.right)
+
+    def separate_all_embeddings(self, node: Node):
+        if node is None:
+            return
+
+        node.separate_word_and_embedding()
+        self.separated_all_embeddings(node.left)
+        self.separated_all_embeddings(node.right)
