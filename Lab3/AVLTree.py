@@ -54,7 +54,8 @@ class Node:
 
     def separate_word_and_embedding(self):
         words = self.item.split()
-        self.item = words.pop(0)
+        self.item = words[0]
+        words.pop(0)
         self.embedding = words
 
 
@@ -144,21 +145,38 @@ class Tree:
         return self.num_nodes(node.left) + self.num_nodes(node.right) + 1
 
     def height(self, node):
-        if node is None:
+        if node is None:  # return -1 is there is no node
             return -1
 
         return max(self.height(node.left), self.height(node.right)) + 1
 
-    def words_to
+    def words_to_file(self, node):
+        print("words_to_file")
+        file = open("words.txt", "w")
+        self.write_to_file_rec(node, file)
+        file.close()
+
+    def write_to_file_rec(self, node, file):
+        if node is None:
+            return
+        self.write_to_file_rec(node.left, file)
+        file.write(node.item + "\n")
+        self.write_to_file_rec(node.right, file)
 
     def print(self, node):
         if node is None:
             return
 
-
         self.print(node.left)
         print(node.item)
         self.print(node.right)
+
+    def print_embeddings(self, node):
+        if node is None:
+            return
+        self.print_embeddings(node.left)
+        print(node.embedding)
+        self.print_embeddings(node.right)
 
     def separate_all_embeddings(self, node: Node):
         if node is None:

@@ -14,7 +14,7 @@ def file_to_avl_tree(file_name):
 
     # add file ids to the tree
     for line in file:
-        if not line[0].isalnum():  # First char is no alphabetic or numeric
+        if not line[0].isalnum() or not line.isascii():  # First char is no alphabetic or numeric
             continue
 
         avl_tree.insert(line)
@@ -66,8 +66,10 @@ def similarity(word1: str, word2: str):
 
 def main():
     global avl_tree
-    # avl_tree = file_to_avl_tree("glove.6B.50d.txt")
-    # print(similarity("barley", "shrimp"))
+    avl_tree = file_to_avl_tree("embeddings_test.txt")
+    avl_tree.words_to_file(avl_tree.root)
+    print(avl_tree.root.left.embedding)
+    print(avl_tree.num_nodes(avl_tree.root))
 
 
 main()
