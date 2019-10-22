@@ -69,7 +69,8 @@ class Node(object):
     def separate_word_and_embedding(self):
         words = self.item.split()
         self.item = words[0]
-        self.embedding = words.pop(0)
+        words.pop(0)
+        self.embedding = words
 
 class Tree:
     def __init__(self, item=None):
@@ -295,7 +296,6 @@ class Tree:
         if self.try_case_6(node, sibling):
             sibling = node.get_sibling()
 
-
     def remove_node(self, node):
         if node.left is not None and node.right is not None:
             predecessor_node = node.get_predecessor()
@@ -313,6 +313,42 @@ class Tree:
         if node is not None:
             self.remove_node(node)
 
+    def num_nodes(self, node):
+        if node is None:
+            return 0
+        return self.num_nodes(node.left) + self.num_nodes(node.right) + 1
+
+    def height(self, node):
+        if node is None:  # return -1 is there is no node
+            return -1
+
+        return max(self.height(node.left), self.height(node.right)) + 1
+
+    def words_at_depth_file(self, node, d:int):
+        file = open("words_at_depth.txt", "w")
+        self.words_at_depth_rec(node, d, file)
+        file.close()
+
+    def words_at_depth_rec(self, node, d: int, file):
+        if node is None:
+            return None
+
+        self.words_at_depth_rec(node.left, d - 1, file)
+        if d == 0:
+            file.write(node.item + "\n")
+        self.words_at_depth_rec(node.right, d - 1, file)
+
+    def words_to_file(self, node):
+        file = open("words.txt", "w")
+        self.write_to_file_rec(node, file)
+        file.close()
+
+    def write_to_file_rec(self, node, file):
+        if node is None:
+            return
+        self.write_to_file_rec(node.left, file)
+        file.write(node.item + "\n")
+        self.write_to_file_rec(node.right, file)
 
     def print(self, node):
         if node is None:
@@ -322,10 +358,17 @@ class Tree:
         self.print(node.left)
         self.print(node.right)
 
+    def print_embeddings(self, node):
+        if node is None:
+            return
+        self.print_embeddings(node.left)
+        print(node.embedding)
+        self.print_embeddings(node.right)
+
     def separate_all_embeddings(self, node: Node):
         if node is None:
             return
 
         node.separate_word_and_embedding()
-        self.separated_all_embeddings(node.left)
-        self.separated_all_embeddings(node.right)
+        self.separate_all_embeddings(node.left)
+        self.separate_all_embeddings(node.right)

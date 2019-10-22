@@ -99,7 +99,7 @@ class Tree:
 
         return node
 
-    def bts_search(self, item):
+    def bst_search(self, item):
         cur = self.root
         while cur is not None:
             if item == cur.item:
@@ -150,8 +150,21 @@ class Tree:
 
         return max(self.height(node.left), self.height(node.right)) + 1
 
+    def words_at_depth_file(self, node, d:int):
+        file = open("words_at_depth.txt", "w")
+        self.words_at_depth_rec(node, d, file)
+        file.close()
+
+    def words_at_depth_rec(self, node, d: int, file):
+        if node is None:
+            return None
+
+        self.words_at_depth_rec(node.left, d - 1, file)
+        if d == 0:
+            file.write(node.item + "\n")
+        self.words_at_depth_rec(node.right, d - 1, file)
+
     def words_to_file(self, node):
-        print("words_to_file")
         file = open("words.txt", "w")
         self.write_to_file_rec(node, file)
         file.close()
