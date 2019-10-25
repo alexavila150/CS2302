@@ -22,7 +22,7 @@ def file_to_avl_tree(file_name):
 
         avl_tree.insert(line)
 
-    avl_tree.separate_all_embeddings(avl_tree.root)
+    tree.separate_all_embeddings(avl_tree.root)
     file.close()
     return avl_tree
 
@@ -38,7 +38,7 @@ def file_to_rb_tree(file_name):
 
     # add file ids to the tree
     for line in file:
-        if not line[0].isalnum() and not line.isascii():  # First char is no alphabetic or numeric
+        if not line[0].isalnum() or not line.isascii():  # First char is no alphabetic or numeric
             continue
 
         rb_tree.insert(line)
@@ -116,11 +116,11 @@ def main():
     input_chosen = False
     while not input_chosen:
         if num == "1":
-            tree = file_to_avl_tree("glove.6B.50d.txt")
+            tree = file_to_avl_tree("words32000.txt")
             print("words are contained in an AVL Tree")
             input_chosen = True
         elif num == "2":
-            tree = file_to_rb_tree("glove.6B.50d.txt")
+            tree = file_to_rb_tree("words32000.txt")
             print("word are contained in a Red Black Tree")
             input_chosen = True
         else:
@@ -131,6 +131,7 @@ def main():
     words = input_to_list("input.txt")
     list_to_output(words)
     print("similarities stored in output.txt")
-
+    print(tree.height(tree.root))
+    print("finish")
 
 main()

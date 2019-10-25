@@ -151,7 +151,7 @@ class Tree:
         return max(self.height(node.left), self.height(node.right)) + 1
 
     def words_at_depth_file(self, node, d:int):
-        file = open("words_at_depth.txt", "w")
+        file = open("words.txt", "w", encoding="utf-8")
         self.words_at_depth_rec(node, d, file)
         file.close()
 
@@ -165,7 +165,7 @@ class Tree:
         self.words_at_depth_rec(node.right, d - 1, file)
 
     def words_to_file(self, node):
-        file = open("words.txt", "w")
+        file = open("words.txt", "w", encoding="utf-8")
         self.write_to_file_rec(node, file)
         file.close()
 
