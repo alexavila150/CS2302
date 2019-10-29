@@ -22,7 +22,7 @@ def file_to_avl_tree(file_name):
 
         avl_tree.insert(line)
 
-    tree.separate_all_embeddings(avl_tree.root)
+    avl_tree.separate_all_embeddings(avl_tree.root)
     file.close()
     return avl_tree
 
@@ -116,11 +116,11 @@ def main():
     input_chosen = False
     while not input_chosen:
         if num == "1":
-            tree = file_to_avl_tree("words32000.txt")
+            tree = file_to_avl_tree("glove.6B.50d.txt")
             print("words are contained in an AVL Tree")
             input_chosen = True
         elif num == "2":
-            tree = file_to_rb_tree("words32000.txt")
+            tree = file_to_rb_tree("glove.6B.50d.txt")
             print("word are contained in a Red Black Tree")
             input_chosen = True
         else:
