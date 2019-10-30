@@ -230,6 +230,60 @@ class BTree:
                 node.separate_word_and_embedding()  # TODO
             self.separate_all_embeddings(node.children[len(node.keys)])
 
+    @staticmethod
+    def num_of_nodes(node: BTreeNode):
+        if node is None:
+            return 0
+
+        if node.is_leaf:
+            return 1
+
+        num_of_nodes_in_children = 0
+        for children in node.children:
+            num_of_nodes_in_children += BTree.num_of_nodes(children)
+
+        return num_of_nodes_in_children + 1
+
+    def words_to_file(self, node):
+        file = open("words.txt", "w", encoding="utf-8")
+        self.write_to_file_rec(node, file)
+        file.close()
+
+    def write_to_file_rec(self, node, file):
+        # writes keys in tree in ascending order
+        if node is None:
+            node = self.root
+
+        if node.is_leaf:
+            for t in node.keys:
+                file.write(t + "\n")
+        else:
+            for i in range(len(node.keys)):
+                self.write_to_file_rec(node.children[i], file)
+            self.write_to_file_rec(node.children[len(node.keys)], file)
+
+    def words_at_depth_file(self, node, d: int):
+        file = open("words_at_depth.txt", "w", encoding="utf-8")
+        self.words_at_depth_rec(node, d, file)
+        file.close()
+
+    def words_at_depth_rec(self, node, d: int, file):
+        if node is None:
+            node = self.root
+
+        if node.is_leaf and d != 0:
+            return
+
+        if d == 0:
+            for t in node.keys:
+                file.write(t + "\n")
+
+        else:
+            for i in range(len(node.keys)):
+                self.words_at_depth_rec(node.children[i], d - 1, file)
+            self.words_at_depth_rec(node.children[len(node.keys)], d - 1, file)
+
+
 def main():
     plt.close('all')
     tree = BTree(max_num_keys=3)

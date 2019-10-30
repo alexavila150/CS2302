@@ -32,11 +32,14 @@ def similarity(word1: str, word2: str):
     word1_embedding = b_tree.get_embedding(word1)
     word2_embedding = b_tree.get_embedding(word2)
 
+    # If embedding was not found then return None
+    if word1_embedding is None or word2_embedding is None:
+        return None
+
     numerator = 0
     d1 = 0
     d2 = 0
     for i in range(len(word1_embedding)):
-        print("word1_embedding", word1_embedding)
         numerator += float(word1_embedding[i]) * float(word2_embedding[i])
         d1 += float(word1_embedding[i]) * float(word1_embedding[i])
         d2 += float(word2_embedding[i]) * float(word2_embedding[i])
@@ -76,14 +79,22 @@ def list_to_output(words):
 
 def main():
     global b_tree
+    print("reading embeddings...")
     b_tree = file_to_b_tree("glove.6B.50d.txt")
 
     # Reads input file with words to compare
     # Store the similarities in output.txt
+    print("comparing words...")
     words = input_to_list("input.txt")
     list_to_output(words)
     print("similarities stored in output.txt")
     print("finish")
+    print("Number of Nodes:", BTree.num_of_nodes(b_tree.root))
+    print("Height:", b_tree.height())
+    b_tree.words_to_file(b_tree.root)
+    print("All words store in words.txt")
+    b_tree.words_at_depth_file(b_tree.root, 2)
+    print("All words at depth stored in words_at_depth.txt")
 
 
 main()
