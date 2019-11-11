@@ -12,7 +12,7 @@ def file_to_b_tree(file_name):
     file = open(file_name, encoding="utf8")
 
     # Create AVLTree
-    b_tree = BTree()
+    b_tree = BTree(10)
 
     # add file ids to the tree
     for line in file:
