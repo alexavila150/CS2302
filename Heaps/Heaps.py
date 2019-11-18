@@ -140,6 +140,7 @@ class MaxHeap(object):
 
         return True
 
+
 def heap_sort(a_lst):
     h = MaxHeap()
     for a in a_lst:
