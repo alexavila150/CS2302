@@ -10,6 +10,9 @@ class LRU(object):
         self.tail.prev = self.head
 
     def get(self, key):
+        if key not in self.keys:
+            return -1
+
         # get node that has the search key
         node = self.node_of_key[key]
         # update node as most recent node
@@ -109,4 +112,5 @@ my_lru.put("Karen", 14)
 my_lru.put("Cynthia", 23)
 my_lru.put("Carlos", 15)
 my_lru.get("Cynthia")
+print(my_lru.get("Alex"))
 print(my_lru)
