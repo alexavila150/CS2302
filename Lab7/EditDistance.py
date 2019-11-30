@@ -21,6 +21,7 @@ def edit_distance(str1, str2):
                 matrix[i][j] = min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]) + 1
 
     print(matrix)
+    return matrix[-1][-1]
 
 
 edit_distance("santa", "ant")
