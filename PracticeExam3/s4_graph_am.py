@@ -65,8 +65,7 @@ class GraphAM:
         if not self.is_valid_vertex(src) or not self.is_valid_vertex(dest):
             return
 
-        return False  # Replace False with your answer
-                      # (no need to add more lines, but if you prefer to add more lines, do so)
+        return self.am[src][dest] != 0
 
     # --------------------------------------------------------------------------------------------------------------
     # Problem 20
@@ -77,7 +76,9 @@ class GraphAM:
 
         out_degree_count = 0
 
-        # Your code goes here
+        for dest in self.am[v]:
+            if dest != 0:
+                out_degree_count += 1
 
         return out_degree_count
 
@@ -88,7 +89,12 @@ class GraphAM:
         if not self.is_valid_vertex(v) or not self.is_valid_vertex(v):
             return
 
-        # Your code goes here
+        if self.compute_out_degree(v) != 0:
+            return False
+
+        for i in range(v):
+            if self.am[i][v] != 0:
+                return False
 
         return True
 
@@ -100,8 +106,10 @@ class GraphAM:
         if n < 3:  # n must be at least 3
             return
 
-        graph = GraphAM(vertices=1234, weighted=False, directed=False)  # Feel free to modify this line
+        graph = GraphAM(vertices=n, weighted=False, directed=True)  # Feel free to modify this line
 
-        # Your code goes here
+        graph.insert_edge(0, n - 1)
+        for i in range(1, n):
+            graph.insert_edge(i, i - 1)
 
         return graph

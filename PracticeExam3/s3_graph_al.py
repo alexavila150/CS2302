@@ -85,9 +85,11 @@ class GraphAL:
     # --------------------------------------------------------------------------------------------------------------
     def is_there_an_edge(self, src, dest):
         if not self.is_valid_vertex(src) or not self.is_valid_vertex(dest):
-            return
+            return False
 
-        # Your code goes here
+        for edge in self.al[src]:
+            if edge.dest == dest:
+                return True
 
         return False
 
@@ -98,9 +100,7 @@ class GraphAL:
         if not self.is_valid_vertex(v) or not self.is_valid_vertex(v):
             return
 
-        out_degree_count = 0
-
-        # Your code goes here
+        out_degree_count = len(self.al[v])
 
         return out_degree_count
 
@@ -111,7 +111,13 @@ class GraphAL:
         if not self.is_valid_vertex(v) or not self.is_valid_vertex(v):
             return
 
-        # Your code goes here
+        if 0 != self.compute_out_degree(v):
+            return False
+
+        for src in self.al:
+            for edge in src:
+                if edge.dest == v:
+                    return False
 
         return True
 
@@ -123,8 +129,10 @@ class GraphAL:
         if n < 3:  # n must be at least 3
             return
 
-        graph = GraphAL(vertices=1234, weighted=False, directed=False)  # Feel free to modify this line
+        graph = GraphAL(vertices=n, weighted=False, directed=False)  # Feel free to modify this line
 
-        # Your code goes here
+        graph.al[0].append(Edge(n - 1))
+        for i in range(1, n):
+            graph.al[i].append(Edge(i - 1))
 
         return graph

@@ -27,7 +27,9 @@ class DisjointSetForest:
     def get_num_sets(self):
         count = 0
 
-        # Your code goes here
+        for num in self.dsf:
+            if num == -1:
+                count += 1
 
         return count
 
@@ -38,7 +40,7 @@ class DisjointSetForest:
     def create_dsf(n):
         dsf = [-1] * n
 
-        # Your code goes here
+        for i in range(1, len(dsf), 2):
+            dsf[i] = i - 1
 
         return dsf
-
