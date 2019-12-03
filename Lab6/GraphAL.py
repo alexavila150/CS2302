@@ -122,8 +122,23 @@ class GraphAL:
                 return edge.weight
         return 0
 
-    def reverse_edges(self):
-        return
+    def compute_indegree_every_vertex(self):
+        all_in_degrees = [0] * len(self.al)
+        for src in self.al:
+            for edge in src:
+                all_in_degrees[edge.dest] += 1
+
+        return all_in_degrees
+
+    def get_adjacent_vertices(self, v):
+        vertices = list()
+        scr_edges = self.al[v]
+        for edge in scr_edges:
+            vertices.append(edge.dest)
+
+
+        return vertices
+
 # import graph_AM as graph # Replace line 3 by this one to demonstrate adjacy maxtrix implementation
 # import graph_EL as graph # Replace line 3 by this one to demonstrate edge list implementation
 

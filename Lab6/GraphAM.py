@@ -121,6 +121,21 @@ class GraphAM:
             for j in range(i, len(self.am)):
                 self.am[i][j], self.am[j][i] = self.am[j][i], self.am[i][j]
 
+    def compute_indegree_every_vertex(self):
+        all_in_degrees = [0] * len(self.am)
+        for i in range(len(self.am)):
+            for j in range(len(self.am[i])):
+                if self.am[i][j] != 0:
+                    all_in_degrees[j] += 1
+
+        return all_in_degrees
+
+    def get_adjacent_vertices(self, v):
+        vertices = list()
+        for i in range(len(self.am[v])):
+            if self.am[v][i] != 0:
+                vertices.append(i)
+        return vertices
 
 
 # import graph_AM as graph # Replace line 3 by this one to demonstrate adjacy maxtrix implementation

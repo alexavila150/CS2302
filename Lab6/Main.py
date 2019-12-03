@@ -63,8 +63,31 @@ def al_kruskal(graph: GraphAL):  # TODO
     return result_graph
 
 
-def am_topological_sort():  # TODO
-    return
+def am_topological_sort(graph):  # TODO
+    all_in_degrees = graph.compute_indegree_every_vertex()
+    sort_result = []
+
+    queue = []
+
+    for i in range(len(all_in_degrees)):
+        if all_in_degrees[i] == 0:
+            queue.insert(0, i)
+
+    while len(queue) != 0:
+        u = queue.pop()
+
+        sort_result.append(u)
+
+        for adj_vertex in graph.get_adjacent_vertices(u):
+            all_in_degrees[adj_vertex] -= 1
+
+            if all_in_degrees[adj_vertex] == 0:
+                queue.insert(0, adj_vertex)
+
+    if len(sort_result) != graph.num_vertices():
+        return None
+
+    return sort_result
 
 
 def al_topological_sort():  # TODO:
@@ -102,3 +125,32 @@ my_graph.insert_edge(3, 4, 1)
 
 result_graph = al_kruskal(my_graph)
 result_graph.display()
+
+#######################################################################
+#                        Topological Sort Test
+#######################################################################
+print("")
+print("TOPOLOGICAL SORT")
+my_graph = GraphAM(6, directed=True, weighted=False)
+my_graph.insert_edge(0, 1)
+my_graph.insert_edge(0, 4)
+my_graph.insert_edge(1, 2)
+my_graph.insert_edge(2, 3)
+my_graph.insert_edge(4, 1)
+my_graph.insert_edge(4, 5)
+my_graph.insert_edge(5, 3)
+
+sort_result = am_topological_sort(my_graph)
+print(sort_result)
+
+my_graph = GraphAL(6, directed=True, weighted=False)
+my_graph.insert_edge(0, 1)
+my_graph.insert_edge(0, 4)
+my_graph.insert_edge(1, 2)
+my_graph.insert_edge(2, 3)
+my_graph.insert_edge(4, 1)
+my_graph.insert_edge(4, 5)
+my_graph.insert_edge(5, 3)
+
+sort_result = am_topological_sort(my_graph)
+print(sort_result)
