@@ -63,7 +63,7 @@ def al_kruskal(graph: GraphAL):  # TODO
     return result_graph
 
 
-def am_topological_sort(graph):  # TODO
+def topological_sort(graph):  # TODO
     all_in_degrees = graph.compute_indegree_every_vertex()
     sort_result = []
 
@@ -88,10 +88,6 @@ def am_topological_sort(graph):  # TODO
         return None
 
     return sort_result
-
-
-def al_topological_sort():  # TODO:
-    return
 
 #######################################################################
 #                        AM_Kruskal Test
@@ -140,7 +136,7 @@ my_graph.insert_edge(4, 1)
 my_graph.insert_edge(4, 5)
 my_graph.insert_edge(5, 3)
 
-sort_result = am_topological_sort(my_graph)
+sort_result = topological_sort(my_graph)
 print(sort_result)
 
 my_graph = GraphAL(6, directed=True, weighted=False)
@@ -152,5 +148,5 @@ my_graph.insert_edge(4, 1)
 my_graph.insert_edge(4, 5)
 my_graph.insert_edge(5, 3)
 
-sort_result = am_topological_sort(my_graph)
+sort_result = topological_sort(my_graph)
 print(sort_result)
