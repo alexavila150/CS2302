@@ -84,10 +84,9 @@ class GraphAL:
     # Problem 15
     # --------------------------------------------------------------------------------------------------------------
     def num_edges(self):
-
         count = 0
-
-        # Your code goes here
+        for src in self.al:
+            count += len(src)
 
         return count
 
@@ -102,7 +101,7 @@ class GraphAL:
 
         for lst in self.al:
             for edge in lst:
-                if False:  # Replace False with your answer
+                if edge.dest == v:  # Replace False with your answer
                     in_degree_count += 1
 
         return in_degree_count
@@ -113,9 +112,19 @@ class GraphAL:
     def num_isolated_vertices(self):
         count = 0
 
-        # Your code goes here
-
+        for i in range(len(self.al)):
+            if self.is_isolated(i):
+                count += 1
         return count
+
+    def is_isolated(self, v):
+        if len(self.al[v]) != 0:
+            return False
+
+        if self.compute_in_degree(v) != 0:
+            return False
+
+        return True
 
     # --------------------------------------------------------------------------------------------------------------
     # Problem 18
@@ -124,6 +133,9 @@ class GraphAL:
         max_in_degree = -float("inf")
         max_v = -1
 
-        # Your code goes here
+        for i in range(len(self.al)):
+            if max_in_degree < self.compute_in_degree(i):
+                max_v = i
+                max_in_degree = self.compute_in_degree(i)
 
         return max_v

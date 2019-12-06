@@ -1,9 +1,9 @@
 class Section0:
-    student_last_name = "Your last name goes here"
-    student_first_name = "Your first name goes here"
-    utep_id = "Your UTEP ID goes here"
-    secret = "Secret goes here"
+    student_last_name = "Avila"
+    student_first_name = "Alex"
+    utep_id = "80631370"
+    secret = "xfx7"
 
     @staticmethod
     def i_earned_extra_credit():
-        return False  # Return True if and only if you earned extra-credit
+        return True  # Return True if and only if you earned extra-credit

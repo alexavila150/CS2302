@@ -64,8 +64,10 @@ class GraphAM:
     def num_edges(self):
 
         count = 0
-
-        # Your code goes here
+        for scr in self.am:
+            for weight in scr:
+                if weight != 0:
+                    count += 1
 
         return count
 
@@ -78,7 +80,9 @@ class GraphAM:
 
         in_degree_count = 0
 
-        # Your code goes here
+        for vertex in range(len(self.am)):
+            if self.am[vertex][v] != 0:
+                in_degree_count += 1
 
         return in_degree_count
 
@@ -88,10 +92,16 @@ class GraphAM:
     def num_isolated_vertices(self):
         count = 0
 
-        # Your code goes here
-
+        for vertex in range(len(self.am)):
+            if self.is_isolated(vertex):
+                count += 1
         return count
 
+    def is_isolated(self, v):
+        for vertex in range(len(self.am)):
+            if self.am[v][vertex] != 0 or self.am[vertex][v] != 0:
+                return False
+        return True
     # --------------------------------------------------------------------------------------------------------------
     # Problem 22
     # --------------------------------------------------------------------------------------------------------------
@@ -100,6 +110,9 @@ class GraphAM:
         max_in_degree = -float("inf")
         max_v = -1
 
-        # Your code goes here
+        for i in range(len(self.am)):
+            if max_in_degree < self.compute_in_degree(i):
+                max_v = i
+                max_in_degree = self.compute_in_degree(i)
 
         return max_v
