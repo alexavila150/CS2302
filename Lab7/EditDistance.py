@@ -15,7 +15,6 @@ def edit_distance(str1, str2):
     for i in range(1, len(matrix)):  # str1
         for j in range(1, len(matrix[i])):  # str2
             if str1[i - 1] == str2[j - 1]:
-                print(str1[i - 1] + " " + str2[j - 1])
                 matrix[i][j] = matrix[i - 1][j - 1]
             else:
                 matrix[i][j] = min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]) + 1
@@ -24,4 +23,5 @@ def edit_distance(str1, str2):
     return matrix[-1][-1]
 
 
-edit_distance("santa", "ant")
+distance = edit_distance("santa", "ant")
+print(distance)

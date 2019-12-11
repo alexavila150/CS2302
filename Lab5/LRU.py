@@ -101,7 +101,7 @@ class Node(object):
         self.prev = None
 
 
-my_lru = LRU(5)
+my_lru = LRU(4)
 my_lru.put("Alex", 19)
 my_lru.put("Turin", 29)
 my_lru.put("Arturo", 57)

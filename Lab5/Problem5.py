@@ -21,4 +21,4 @@ def most_frequent_words(words, k):
 
 
 words = ["la", "la", "po", "la", "po", "po", "po", "me", "do", "me", "fi", "la"]
-most_frequent_words(words, 1)
+most_frequent_words(words, 3)
